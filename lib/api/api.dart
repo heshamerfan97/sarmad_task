@@ -3,16 +3,16 @@ import 'package:sarmad_task/api/dio_manager.dart';
 
 class API {
 
-  static const generalPath = 'api/v1/integration/focal';
+  static const String generalPath = 'api/v1/integration/focal';
 
   ///USERS APIs
-  static const String searchForUsersPath = "$generalPath/screen/individual";
+  final String searchForUsersPath = "$generalPath/screen/individual";
 
 
 
 
   ///User APIs
-  static Future<APIResultModel> searchForUsers({Map<String, dynamic>? body}) async {
+   Future<APIResultModel> searchForUsers({Map<String, dynamic>? body}) async {
     return APIResultModel.fromResponse(
         response: await DIOManger.post(path: searchForUsersPath, body: body),
         data: "screen_result");

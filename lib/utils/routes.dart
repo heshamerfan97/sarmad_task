@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sarmad_task/home/view/screens/home_screen.dart';
+import 'package:sarmad_task/modules/home/view/screens/home_screen.dart';
 import 'package:sarmad_task/utils/logger.dart';
 
 

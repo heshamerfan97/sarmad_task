@@ -10,11 +10,11 @@ class TypeChecker {
     }
   }
 
-  static String? isString(dynamic number, {String? className, String? varName}) {
-    if (number is String) {
-      return number;
+  static String? isString(dynamic text, {String? className, String? varName}) {
+    if (text is String) {
+      return text;
     } else {
-      notifyAboutTypeConflict(number, "String", className: className, varName: varName);
+      notifyAboutTypeConflict(text, "String", className: className, varName: varName);
       return null;
     }
   }

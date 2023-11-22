@@ -12,8 +12,8 @@ class DIOManger {
     validateStatus: (int? code) => code ==200 || code == 201,
     contentType: "application/json",
     responseType: ResponseType.json,
-    receiveTimeout: const Duration(seconds: 10),
-    sendTimeout: const Duration(seconds: 10)
+    receiveTimeout: const Duration(seconds: 20),
+    sendTimeout: const Duration(seconds: 20)
   );
 
   static Dio dio = Dio(BaseOptions(baseUrl: BaseUrl));

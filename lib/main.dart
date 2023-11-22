@@ -1,10 +1,15 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sarmad_task/app_bloc.dart';
-import 'package:sarmad_task/home/view/screens/home_screen.dart';
+import 'package:sarmad_task/modules/home/view/screens/home_screen.dart';
+import 'package:sarmad_task/shared/controllers/connectivity_controller.dart';
+import 'package:sarmad_task/shared/controllers/error_cubit.dart';
 import 'package:sarmad_task/utils/logger.dart';
 import 'package:sarmad_task/utils/routes.dart';
 import 'package:sarmad_task/utils/sailor.dart';
+import 'package:sarmad_task/utils/toast_utils.dart';
 
 
 class AppBlocObserver extends BlocObserver {
@@ -30,11 +35,14 @@ class AppBlocObserver extends BlocObserver {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+
+  bool isConnectivityDialogShown = false;
 
   // This widget is the root of your application.
   @override
@@ -44,7 +52,29 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: Sailor.navigatorKey,
         onGenerateRoute: AppRouter.generateRoute,
-        home: const HomeScreen(),
+        home: BlocListener<ErrorCubit, String>(
+            listener: (context, errorMessage) {
+              if(errorMessage.isNotEmpty){
+                ToastUtils.showToast(errorMessage, toastLength: Toast.LENGTH_LONG);
+              }
+            },
+          child: BlocListener<ConnectivityCubit, ConnectivityResult>(
+              listenWhen: (oldState, newState) => oldState != newState,
+              listener: (context, connectivityState) {
+                if (connectivityState != ConnectivityResult.wifi &&
+                    connectivityState != ConnectivityResult.mobile && !isConnectivityDialogShown) {
+                  isConnectivityDialogShown = true;
+                  showDialog(
+                      context: context,
+                      builder: (ctx) =>
+                          AlertDialog(
+                            title: Text("No Internet Connection"),
+                          )).then((value) => isConnectivityDialogShown = false);
+                }
+              },
+            child: const HomeScreen()
+          )
+        ),
       ),
     );
   }

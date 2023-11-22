@@ -20,9 +20,11 @@ dependencies:
 
   #Connections
   dio: ^5.3.3
+  connectivity_plus: ^5.0.1
 
   #UI
   shimmer: ^3.0.0
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:

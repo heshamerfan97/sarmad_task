@@ -21,10 +21,7 @@ class APIResultModel {
         Logger.log(response.statusCode, tag: tag);
         final Map<String, dynamic> responseBody = response.data as Map<String, dynamic>;
         return APIResultModel(
-          success: (response.statusCode == 200 || response.statusCode == 201) &&
-              ((responseBody['success_key'] == 1) ||
-                  responseBody['status_code'] == 'OK' ||
-                  responseBody['status_code'] == 200),
+          success: response.statusCode == 200 || response.statusCode == 201,
           message: responseBody['query_status'],
           data: data == null ? responseBody : responseBody[data],
         );
